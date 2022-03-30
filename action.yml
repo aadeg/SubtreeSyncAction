@@ -1,0 +1,34 @@
+name: "aadeg/git-subtree-sync"
+description: |
+  Sync a sub-directory from a parent repo to a child repo using Github Apps for the authentication
+inputs:
+  repo:
+    description: "Child repository to sync (format: owner/repository)"
+    required: true
+  path:
+    description: "Prefix path in the parent repo of the subtree"
+    required: true
+  app_id:
+    description: "ID of the Github App"
+    required: true
+  installation_id:
+    description: "Installation ID of the Github App"
+    required: true
+  private_key:
+    description: "Private key of the Github App. The content of the pem file"
+    required: true
+  tag:
+    description: "Create (or mirror) a tag on the child subtree repository (branch or tag ref that triggered the workflow when true.)"
+    required: false
+    default: "false"
+  force:
+    description: "Force push to the child subtree repository (recommended for pure downstream mirrors.)"
+    required: false
+    default: "false"
+  branch:
+    description: "Branch of child subtree repository (default is branch or tag ref that triggered the workflow.)"
+    required: false
+    default: ""
+runs:
+  using: "docker"
+  image: "Dockerfile"
