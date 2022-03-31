@@ -46,8 +46,8 @@ git push -u ${PUSH_ARGS} origin $INPUT_BRANCH
 # git subtree push ${PUSH_ARGS} --prefix="${INPUT_PATH}" "${SUBTREE_URL}" "${INPUT_BRANCH}"
 
 # Tag the subtree repository
-if [ $INPUT_TAG != "false" ]; then
-    if [ $INPUT_TAG != "true" ]; then
+if [ "$INPUT_TAG" != "false" ]; then
+    if [ "$INPUT_TAG" != "true" ]; then
         INPUT_TAG=${GITHUB_REF}
     fi
 
