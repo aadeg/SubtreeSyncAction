@@ -14,6 +14,9 @@ SUBTREE_URL="https://x-access-token:${ACCESS_TOKEN}@github.com/${INPUT_REPO}.git
 SPLIT_DIR=$(echo -n ${INPUT_REPO} | sha256sum)
 SPLIT_DIR=${SPLIT_DIR::-3}
 
+# Echoing the git version
+echo "Git version: $(git --version)"
+
 # Get subtree repository into split directory
 git init --bare ${SPLIT_DIR}
 
@@ -21,7 +24,7 @@ git init --bare ${SPLIT_DIR}
 git subtree split --prefix=${INPUT_PATH} -b split
 
 # Check for force push to remote
-if [ $INPUT_FORCE == "true" ]; then
+if [ "$INPUT_FORCE" == "true" ]; then
   PUSH_ARGS="-f"
 fi
 
