@@ -6,9 +6,16 @@ export INSTALLATION_ID=${INPUT_INSTALLATION_ID}
 export PRIVATE_KEY=${INPUT_PRIVATE_KEY}
 
 # Generate the GitHub access token
-export JWT_TOKEN=`python3 /root/src/generate_jwt.py`
-ACCESS_TOKEN=`python3 /root/src/get_access_token.py`
-SUBTREE_URL="https://x-access-token:${ACCESS_TOKEN}@github.com/${INPUT_REPO}.git"
+if [ "$INPUT_AUTH_MODE" == "github_app" ] || [ "$INPUT_AUTH_MODE" == "" ]; then
+    export JWT_TOKEN=`python3 /root/src/generate_jwt.py`
+    ACCESS_TOKEN=`python3 /root/src/get_access_token.py`
+    SUBTREE_URL="https://x-access-token:${ACCESS_TOKEN}@github.com/${INPUT_REPO}.git"
+elif [ "$INPUT_AUTH_MODE" == "user_pass" ]; then
+    SUBTREE_URL="https://${INPUT_GIT_USERNAME}:${INPUT_GIT_PASSWORD}@${INPUT_REPO}"
+else
+    echo "Invalid auth mode"
+    exit -1
+fi
 
 # Generate sha256 of the downstream repo name
 SPLIT_DIR=$(echo -n ${INPUT_REPO} | sha256sum)
